@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"io"
-	"log"
 	"log/slog"
 	"net/http"
 	"net/rpc"
@@ -26,12 +25,12 @@ func NewHttpHandler(logger *slog.Logger, rpc *rpc.Server) *HttpHandler {
 	}
 }
 
-func (h *HttpHandler) HandleRequest(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
+func (h *HttpHandler) HandleRequest(w http.ResponseWriter, req *http.Request) {
+	if req.Method != http.MethodPost {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
-	ct := r.Header.Get("Content-Type")
+	ct := req.Header.Get("Content-Type")
 	if ct != "" {
 		mediaType := strings.ToLower(strings.TrimSpace(strings.Split(ct, ";")[0]))
 		if mediaType != "application/json" {
@@ -45,7 +44,7 @@ func (h *HttpHandler) HandleRequest(w http.ResponseWriter, r *http.Request) {
 
 	h.logger.Info("ServeRequest...")
 
-	codec, err := newHttpCodec(r, w)
+	codec, err := newHttpCodec(req, w)
 	if err != nil {
 		h.logger.Error("NewHttpCodec:", "err", err)
 		return
@@ -111,8 +110,6 @@ func (c *httpCodec) ReadRequestBody(x interface{}) error {
 
 func (c *httpCodec) WriteResponse(r *rpc.Response, x interface{}) error {
 	c.writer.Header().Set("Content-Type", "application/json")
-
-	log.Printf("response: %v\n", x)
 
 	reply := &RPCResponse{
 		JSONRPC: "2.0",
