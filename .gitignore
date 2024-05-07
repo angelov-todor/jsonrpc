@@ -1,0 +1,55 @@
+# Ignore operating system files
+.DS_Store
+Thumbs.db
+
+# Ignore editor and IDE files
+*.swp
+*.swo
+*.bak
+.vscode/
+.idea/
+
+# Ignore build output
+build/
+dist/
+node_modules/
+
+# Ignore log files
+*.log
+
+# Ignore compiled binaries
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Ignore package files
+*.tar.gz
+*.zip
+
+# Ignore credentials and sensitive information
+secrets.yml
+.env
+
+# Ignore generated documentation
+docs/
+
+# Ignore user-specific files
+*.user
+*.suo
+
+# Ignore temporary files
+*.tmp
+*.temp
+
+# Ignore database files
+*.db
+*.sqlite
+
+# Ignore cache and temporary files
+.cache/
+.tmp/
+
+# Ignore system-specific files
+*.DS_Store
+Thumbs.db
